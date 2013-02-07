@@ -31,6 +31,7 @@ app.configure('development', function () {
 });
 
 app.get('/', routes.index);
+app.get('/tests', routes.test);
 
 app.get('/coaches', coach.list);
 
@@ -85,6 +86,7 @@ app.delete('/trainingroom/:id', trainingroom.rest.DELETE);
 
 
 app.get('/trainingsessions', trainingsession.list);
+app.get('/trainingsessions/fast', trainingsession.fastList);
 
 app.get('/trainingsession/:id', trainingsession.rest.GET);
 app.post('/trainingsession/new', trainingsession.rest.POST);
