@@ -4,13 +4,14 @@ Ext.define('TA.app.Application', {
 
     appFolder: 'javascripts/app',
 
+    requires: ['TA.view.toolbar.Navigation'],
 
     launch: function() {
         Ext.create('Ext.Viewport', {
             layout : 'fit',
             items: [{
                 xtype: 'panel',
-                layout:'auto',
+                layout:'card',
                 itemId: 'mainview',
                 padding: 10,
                 minHeight: 300,
@@ -23,46 +24,7 @@ Ext.define('TA.app.Application', {
                     text: 'Trainings admin application'
                 },{
                     dock: 'top',
-                    xtype: 'toolbar',
-                    margin: '4px 0 0 0',
-                    itemId: 'navigation',
-                    defaults: {
-                        enableToggle: true,
-                        toggleGroup: 'navigation',
-                        allowDepress: false
-                    },
-                    items: [
-                        {
-                            xtype: 'button',
-                            itemId: 'coaches',
-                            text: 'Coaches'
-                        },
-                        {
-                            xtype: 'button',
-                            itemId: 'trainings',
-                            text: 'Trainings'
-                        },
-                        {
-                            xtype: 'button',
-                            itemId: 'participants',
-                            text: 'Participants'
-                        },
-                        {
-                            xtype: 'button',
-                            itemId: 'rooms',
-                            text: 'Rooms'
-                        },
-                        {
-                            xtype: 'button',
-                            itemId: 'sessions',
-                            text: 'Sessions'
-                        },'->',
-                        {
-                            xtype: 'button',
-                            itemId: 'callendar',
-                            text: 'Callendar'
-                        }
-                    ]
+                    xtype: 'ta.navigation-toolbar'
                 },{
                     dock: 'bottom',
                     style: 'text-align: center;',
