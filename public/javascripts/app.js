@@ -4,7 +4,10 @@ Ext.define('TA.app.Application', {
 
     appFolder: 'javascripts/app',
 
-    requires: ['TA.model.Coach'],
+    requires: [
+        'TA.model.Coach',
+        'TA.store.Coaches'
+    ],
 
     autoCreateViewport: true
 
