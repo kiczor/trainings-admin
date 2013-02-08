@@ -4,6 +4,8 @@ Ext.define('TA.app.Application', {
 
     appFolder: 'javascripts/app',
 
+    requires: ['TA.model.Coach'],
+
     autoCreateViewport: true
 
 });
