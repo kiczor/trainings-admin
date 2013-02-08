@@ -4,26 +4,14 @@ Ext.define('TA.app.Application', {
 
     appFolder: 'javascripts/app',
 
-    requires: [
-        'TA.model.Coach',
-        'TA.store.Coaches',
-        'TA.view.coach.List'
-    ],
+    viewport: null,
+
+    controllers: ['Coaches'],
 
     autoCreateViewport: true,
 
-    launch: function() {
-        var coachesStore = this.getStore('Coaches');
-
-        var coachesList = Ext.create('TA.view.coach.List', {
-            store: coachesStore
-        });
-
-        var viewport = Ext.ComponentQuery.query('viewport panel')[0];
-
-        viewport.add(coachesList);
-
-        coachesStore.load();
+    getViewport: function() {
+        this.viewport= this.viewport || Ext.ComponentQuery.query('viewport panel')[0];
+        return this.viewport;
     }
-
 });
