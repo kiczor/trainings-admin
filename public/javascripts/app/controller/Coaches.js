@@ -38,7 +38,6 @@ Ext.define('TA.controller.Coaches', {
 
     init: function() {
         this.callParent();
-        this.getStore('Coaches').load();
     },
 
     onLaunch: function() {
@@ -46,7 +45,6 @@ Ext.define('TA.controller.Coaches', {
         this.getList().on('addcoachclick', this.consumeListAddCoachClick, this);
         this.getList().on('editcoachclick', this.consumeListEditCoachClick, this);
         this.getList().on('deletecoachclick', this.consumeListDeleteCoachClick, this);
-        this.application.getViewport().add(this.getList());
         this.getList().reconfigure(this.getStore('Coaches'));
     },
 
@@ -55,6 +53,11 @@ Ext.define('TA.controller.Coaches', {
         this.getList().un('editcoachclick', this.consumeListEditCoachClick, this);
         this.getList().un('addcoachclick', this.consumeListAddCoachClick, this);
         this.callParent();
+    },
+
+    execute: function(params) {
+        this.getStore('Coaches').load();
+        return this.getList();
     },
 
     consumeListAddCoachClick: function(list) {

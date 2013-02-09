@@ -6,7 +6,7 @@ Ext.define('TA.view.Viewport', {
     layout : 'fit',
     items: [{
         xtype: 'panel',
-        layout:'auto',
+        layout:'card',
         itemId: 'mainview',
         padding: 10,
         minHeight: 300,

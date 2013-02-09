@@ -24,12 +24,15 @@ Ext.define('TA.controller.Rooms', {
 
     init: function() {
         this.callParent();
-        this.getStore('Rooms').load();
     },
 
     onLaunch: function() {
         this.callParent();
-        this.application.getViewport().add(this.getList());
         this.getList().reconfigure(this.getStore('Rooms'));
+    },
+
+    execute: function(params) {
+        this.getStore('Rooms').load();
+        return this.getList();
     }
 });
