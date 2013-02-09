@@ -11,7 +11,8 @@ Ext.define('TA.controller.Coaches', {
 
     views: [
         'coach.List',
-        'coach.Add'
+        'coach.Add',
+        'coach.Edit'
     ],
 
     refs: [
@@ -26,6 +27,12 @@ Ext.define('TA.controller.Coaches', {
             selector: '',
             xtype: 'coachadd',
             autoCreate: true
+        },
+        {
+            ref: 'edit',
+            selector: '',
+            xtype: 'coachedit',
+            autoCreate: true
         }
     ],
 
@@ -37,11 +44,13 @@ Ext.define('TA.controller.Coaches', {
     onLaunch: function() {
         this.callParent();
         this.getList().on('addcoachclick', this.consumeListAddCoachClick, this);
+        this.getList().on('editcoachclick', this.consumeListEditCoachClick, this);
         this.application.getViewport().add(this.getList());
         this.getList().reconfigure(this.getStore('Coaches'));
     },
 
     destroy: function() {
+        this.getList().un('editcoachclick', this.consumeListEditCoachClick, this);
         this.getList().un('addcoachclick', this.consumeListAddCoachClick, this);
         this.callParent();
     },
@@ -76,5 +85,13 @@ Ext.define('TA.controller.Coaches', {
             },
             scope: this
         });
+    },
+
+    consumeListEditCoachClick: function(list, record) {
+        var editView = this.getEdit({
+            record: record
+        });
+
+        editView.on('saveclick', this.consumeFormSaveClick, this);
     }
 });

@@ -5,7 +5,7 @@ Ext.define('TA.view.coach.List' ,{
     title : 'All coaches',
 
     initComponent: function() {
-        this.addEvents('addcoachclick');
+        this.addEvents('addcoachclick', 'editcoachclick');
 
         this.dockedItems = [{
             xtype: 'toolbar',
@@ -33,7 +33,7 @@ Ext.define('TA.view.coach.List' ,{
                 items: [{
                     icon: 'images/edit-icon.png',  // Use a URL in the icon config
                     handler: function(grid, rowIndex, colIndex, item, event, record) {
-                        alert('edit the coach: ' + record.get('id'));
+                        this.onCoachEdit(record);
                     },
                     scope: this
                 }]
@@ -45,5 +45,9 @@ Ext.define('TA.view.coach.List' ,{
 
     onCoachAdd: function() {
         this.fireEvent('addcoachclick', this);
+    },
+
+    onCoachEdit: function(record) {
+        this.fireEvent('editcoachclick', this, record);
     }
 });
