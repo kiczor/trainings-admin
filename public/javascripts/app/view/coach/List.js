@@ -22,7 +22,22 @@ Ext.define('TA.view.coach.List' ,{
             {xtype: 'rownumberer', text: '#'},
             {header: 'Name',  dataIndex: 'name',  flex: 1},
             {header: 'Surname', dataIndex: 'surname', flex: 1},
-            {header: 'Email', dataIndex: 'email', flex: 1}
+            {header: 'Email', dataIndex: 'email', flex: 1},
+            {
+                xtype:'actioncolumn',
+                header: 'Actions',
+                align: 'center',
+                width: 50,
+                menuDisabled: true,
+                draggable: false,
+                items: [{
+                    icon: 'images/edit-icon.png',  // Use a URL in the icon config
+                    handler: function(grid, rowIndex, colIndex, item, event, record) {
+                        alert('edit the coach: ' + record.get('id'));
+                    },
+                    scope: this
+                }]
+            }
         ];
 
         this.callParent(arguments);
