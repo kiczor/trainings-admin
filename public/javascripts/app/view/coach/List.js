@@ -36,6 +36,12 @@ Ext.define('TA.view.coach.List' ,{
                         this.onCoachEdit(record);
                     },
                     scope: this
+                },{
+                    icon: 'images/delete-icon.png',  // Use a URL in the icon config
+                    handler: function(grid, rowIndex, colIndex, item, event, record) {
+                        alert('delete coach: '+record.get('id'));
+                    },
+                    scope: this
                 }]
             }
         ];
