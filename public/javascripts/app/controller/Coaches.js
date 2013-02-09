@@ -10,7 +10,8 @@ Ext.define('TA.controller.Coaches', {
     ],
 
     views: [
-        'coach.List'
+        'coach.List',
+        'coach.Add'
     ],
 
     refs: [

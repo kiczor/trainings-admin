@@ -5,6 +5,18 @@ Ext.define('TA.view.coach.List' ,{
     title : 'All coaches',
 
     initComponent: function() {
+
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            dock: 'top',
+            items: [{
+                xtype: 'button',
+                text: 'Add coach',
+                scope: this,
+                handler: this.onCoachAdd
+            }]
+        }];
+
         this.columns = [
             {xtype: 'rownumberer', text: '#'},
             {header: 'Name',  dataIndex: 'name',  flex: 1},
@@ -13,5 +25,15 @@ Ext.define('TA.view.coach.List' ,{
         ];
 
         this.callParent(arguments);
+    },
+
+    onCoachAdd: function() {
+        Ext.create('TA.view.coach.Add', {
+            record: Ext.create('TA.model.Coach'),
+            onSuccess: Ext.Function.bind(function(win) {
+                this.store.load();
+                win.close();
+            }, this)
+        });
     }
 });
