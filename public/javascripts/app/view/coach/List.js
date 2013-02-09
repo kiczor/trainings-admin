@@ -5,6 +5,7 @@ Ext.define('TA.view.coach.List' ,{
     title : 'All coaches',
 
     initComponent: function() {
+        this.addEvents('addcoachclick');
 
         this.dockedItems = [{
             xtype: 'toolbar',
@@ -28,12 +29,6 @@ Ext.define('TA.view.coach.List' ,{
     },
 
     onCoachAdd: function() {
-        Ext.create('TA.view.coach.Add', {
-            record: Ext.create('TA.model.Coach'),
-            onSuccess: Ext.Function.bind(function(win) {
-                this.store.load();
-                win.close();
-            }, this)
-        });
+        this.fireEvent('addcoachclick', this);
     }
 });
