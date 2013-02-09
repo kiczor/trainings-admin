@@ -45,11 +45,13 @@ Ext.define('TA.controller.Coaches', {
         this.callParent();
         this.getList().on('addcoachclick', this.consumeListAddCoachClick, this);
         this.getList().on('editcoachclick', this.consumeListEditCoachClick, this);
+        this.getList().on('deletecoachclick', this.consumeListDeleteCoachClick, this);
         this.application.getViewport().add(this.getList());
         this.getList().reconfigure(this.getStore('Coaches'));
     },
 
     destroy: function() {
+        this.getList().un('deletecoachclick', this.consumeListDeleteCoachClick, this);
         this.getList().un('editcoachclick', this.consumeListEditCoachClick, this);
         this.getList().un('addcoachclick', this.consumeListAddCoachClick, this);
         this.callParent();
@@ -91,7 +93,23 @@ Ext.define('TA.controller.Coaches', {
         var editView = this.getEdit({
             record: record
         });
-
         editView.on('saveclick', this.consumeFormSaveClick, this);
+    },
+
+    consumeListDeleteCoachClick: function(list, record) {
+        record.destroy({
+            success: function() {
+                this.getStore('Coaches').reload();
+            },
+            failure: function() {
+                Ext.MessageBox.show({
+                    title: 'Deleting coach',
+                    msg: 'There has been an error processing your request!!!',
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.Msg.ERROR
+                });
+            },
+            scope: this
+        });
     }
 });

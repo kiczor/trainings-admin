@@ -5,7 +5,7 @@ Ext.define('TA.view.coach.List' ,{
     title : 'All coaches',
 
     initComponent: function() {
-        this.addEvents('addcoachclick', 'editcoachclick');
+        this.addEvents('addcoachclick', 'editcoachclick', 'deletecoachclick');
 
         this.dockedItems = [{
             xtype: 'toolbar',
@@ -39,7 +39,7 @@ Ext.define('TA.view.coach.List' ,{
                 },{
                     icon: 'images/delete-icon.png',  // Use a URL in the icon config
                     handler: function(grid, rowIndex, colIndex, item, event, record) {
-                        alert('delete coach: '+record.get('id'));
+                        this.onCoachDelete(record);
                     },
                     scope: this
                 }]
@@ -55,5 +55,9 @@ Ext.define('TA.view.coach.List' ,{
 
     onCoachEdit: function(record) {
         this.fireEvent('editcoachclick', this, record);
+    },
+
+    onCoachDelete: function(record) {
+        this.fireEvent('deletecoachclick', this, record);
     }
 });
