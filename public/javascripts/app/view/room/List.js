@@ -7,7 +7,7 @@ Ext.define('TA.view.room.List' ,{
     roomFloorsStore: null,
 
     initComponent: function() {
-        this.addEvents('addroomclick', 'editroomclick');
+        this.addEvents('addroomclick', 'editroomclick', 'deleteroomclick');
 
         this.dockedItems = [{
             xtype: 'toolbar',
@@ -42,6 +42,12 @@ Ext.define('TA.view.room.List' ,{
                         this.onRoomEdit(record);
                     },
                     scope: this
+                },{
+                    icon: 'images/delete-icon.png',
+                    handler: function(grid, rowIndex, colIndex, item, event, record) {
+                        this.onRoomDelete(record);
+                    },
+                    scope: this
                 }]
             }
         ];
@@ -55,5 +61,9 @@ Ext.define('TA.view.room.List' ,{
 
     onRoomEdit: function(record) {
         this.fireEvent('editroomclick', this, record);
+    },
+
+    onRoomDelete: function(record) {
+        this.fireEvent('deleteroomclick', this, record);
     }
 });

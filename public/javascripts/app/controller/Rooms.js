@@ -48,6 +48,7 @@ Ext.define('TA.controller.Rooms', {
     },
 
     destroy: function() {
+        this.getList().un('deleteroomclick', this.consumeListDeleteRoomClick, this);
         this.getList().un('editroomclick', this.consumeListEditRoomClick, this);
         this.getList().un('addroomclick', this.consumeListAddRoomClick, this);
         this.callParent();
@@ -59,6 +60,7 @@ Ext.define('TA.controller.Rooms', {
         });
         this.getList().on('addroomclick', this.consumeListAddRoomClick, this);
         this.getList().on('editroomclick', this.consumeListEditRoomClick, this);
+        this.getList().on('deleteroomclick', this.consumeListDeleteRoomClick, this);
     },
 
     execute: function(params) {
@@ -106,5 +108,22 @@ Ext.define('TA.controller.Rooms', {
         });
 
         editView.on('saveclick', this.consumeFormSaveClick, this);
+    },
+
+    consumeListDeleteRoomClick: function(list, record) {
+        record.destroy({
+            success: function() {
+                this.getStore('Rooms').reload();
+            },
+            failure: function() {
+                Ext.MessageBox.show({
+                    title: 'Deleting room',
+                    msg: 'There has been an error processing your request!!!',
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.Msg.ERROR
+                });
+            },
+            scope: this
+        });
     }
 });
