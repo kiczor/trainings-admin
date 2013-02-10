@@ -24,8 +24,8 @@ Ext.define('TA.view.room.Add', {
         this.form = this.formPanel.getForm();
 
         this.callParent(arguments);
-        this.record.set('space', 10);
-        this.record.set('floor', this.roomFloorsStore.getAt(0).get('value'));
+        this.record.set('space', this.record.get('space') || 10);
+        this.record.set('floor', this.record.get('floor') || this.roomFloorsStore.getAt(0).get('value'));
         this.form.loadRecord(this.record);
     },
 

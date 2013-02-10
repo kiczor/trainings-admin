@@ -12,7 +12,8 @@ Ext.define('TA.controller.Rooms', {
 
     views: [
         'room.List',
-        'room.Add'
+        'room.Add',
+        'room.Edit'
     ],
 
     refs: [
@@ -26,6 +27,12 @@ Ext.define('TA.controller.Rooms', {
             ref: 'add',
             selector: '',
             xtype: 'roomadd',
+            autoCreate: true
+        },
+        {
+            ref: 'edit',
+            selector: '',
+            xtype: 'roomedit',
             autoCreate: true
         }
     ],
@@ -41,6 +48,7 @@ Ext.define('TA.controller.Rooms', {
     },
 
     destroy: function() {
+        this.getList().un('editroomclick', this.consumeListEditRoomClick, this);
         this.getList().un('addroomclick', this.consumeListAddRoomClick, this);
         this.callParent();
     },
@@ -50,6 +58,7 @@ Ext.define('TA.controller.Rooms', {
             roomFloorsStore: this.getStore('RoomFloors')
         });
         this.getList().on('addroomclick', this.consumeListAddRoomClick, this);
+        this.getList().on('editroomclick', this.consumeListEditRoomClick, this);
     },
 
     execute: function(params) {
@@ -88,5 +97,14 @@ Ext.define('TA.controller.Rooms', {
             },
             scope: this
         });
+    },
+
+    consumeListEditRoomClick: function(view, record) {
+        var editView = this.getEdit({
+            record: record,
+            roomFloorsStore: this.getStore('RoomFloors')
+        });
+
+        editView.on('saveclick', this.consumeFormSaveClick, this);
     }
 });

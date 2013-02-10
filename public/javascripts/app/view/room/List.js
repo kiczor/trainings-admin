@@ -7,7 +7,7 @@ Ext.define('TA.view.room.List' ,{
     roomFloorsStore: null,
 
     initComponent: function() {
-        this.addEvents('addroomclick');
+        this.addEvents('addroomclick', 'editroomclick');
 
         this.dockedItems = [{
             xtype: 'toolbar',
@@ -28,7 +28,22 @@ Ext.define('TA.view.room.List' ,{
                     return this.roomFloorsStore.findRecord('value', value).get('text');
                 }
             },
-            {header: 'Space #', dataIndex: 'space'}
+            {header: 'Space #', dataIndex: 'space'},
+            {
+                xtype:'actioncolumn',
+                header: 'Actions',
+                align: 'center',
+                width: 50,
+                menuDisabled: true,
+                draggable: false,
+                items: [{
+                    icon: 'images/edit-icon.png',  // Use a URL in the icon config
+                    handler: function(grid, rowIndex, colIndex, item, event, record) {
+                        this.onRoomEdit(record);
+                    },
+                    scope: this
+                }]
+            }
         ];
 
         this.callParent(arguments);
@@ -36,5 +51,9 @@ Ext.define('TA.view.room.List' ,{
 
     onRoomAdd: function() {
         this.fireEvent('addroomclick', this);
+    },
+
+    onRoomEdit: function(record) {
+        this.fireEvent('editroomclick', this, record);
     }
 });
