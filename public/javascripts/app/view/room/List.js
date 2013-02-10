@@ -4,6 +4,8 @@ Ext.define('TA.view.room.List' ,{
 
     title : 'All rooms',
 
+    roomFloorsStore: null,
+
     initComponent: function() {
         this.addEvents('addroomclick');
 
@@ -21,7 +23,11 @@ Ext.define('TA.view.room.List' ,{
         this.columns = [
             {xtype: 'rownumberer', text: '#'},
             {header: 'Name',  dataIndex: 'name', flex: 1},
-            {header: 'Floor', dataIndex: 'floor'},
+            {header: 'Floor', dataIndex: 'floor',
+                renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                    return this.roomFloorsStore.findRecord('value', value).get('text');
+                }
+            },
             {header: 'Space #', dataIndex: 'space'}
         ];
 

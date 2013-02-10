@@ -6,7 +6,8 @@ Ext.define('TA.controller.Rooms', {
     ],
 
     stores: [
-        'Rooms'
+        'Rooms',
+        'RoomFloors'
     ],
 
     views: [
@@ -35,13 +36,20 @@ Ext.define('TA.controller.Rooms', {
 
     onLaunch: function() {
         this.callParent();
-        this.getList().on('addroomclick', this.consumeListAddRoomClick, this);
+        this.initList();
         this.getList().reconfigure(this.getStore('Rooms'));
     },
 
     destroy: function() {
         this.getList().un('addroomclick', this.consumeListAddRoomClick, this);
         this.callParent();
+    },
+
+    initList: function() {
+        this.getList({
+            roomFloorsStore: this.getStore('RoomFloors')
+        });
+        this.getList().on('addroomclick', this.consumeListAddRoomClick, this);
     },
 
     execute: function(params) {
