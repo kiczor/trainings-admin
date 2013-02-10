@@ -6,7 +6,7 @@ Ext.define('TA.app.Application', {
 
     viewport: null,
 
-    controllers: ['Navigation', 'Coaches', 'Rooms'],
+    controllers: ['Navigation', 'Coaches', 'Rooms', 'Participants'],
 
     autoCreateViewport: true,
 
