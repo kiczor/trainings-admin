@@ -5,6 +5,19 @@ Ext.define('TA.view.room.List' ,{
     title : 'All rooms',
 
     initComponent: function() {
+        this.addEvents('addroomclick');
+
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            dock: 'top',
+            items: [{
+                xtype: 'button',
+                text: 'Add room',
+                scope: this,
+                handler: this.onRoomAdd
+            }]
+        }];
+
         this.columns = [
             {xtype: 'rownumberer', text: '#'},
             {header: 'Name',  dataIndex: 'name', flex: 1},
@@ -13,5 +26,9 @@ Ext.define('TA.view.room.List' ,{
         ];
 
         this.callParent(arguments);
+    },
+
+    onRoomAdd: function() {
+        this.fireEvent('addroomclick', this);
     }
 });
