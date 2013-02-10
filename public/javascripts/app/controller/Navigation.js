@@ -25,6 +25,11 @@ Ext.define('TA.controller.Navigation', {
                 click: function(target, event, eOpts){
                     this.navigateTo('Participants');
                 }
+            },
+            '#trainings':{
+                click: function(target, event, eOpts){
+                    this.navigateTo('Trainings');
+                }
             }
         });
     },
