@@ -14,6 +14,8 @@ Ext.define('TA.view.room.Add', {
     form: null,
     formPanel: null,
 
+    roomFloorsStore: null,
+
     initComponent: function() {
         this.addEvents('saveclick', 'cancelclick');
 
@@ -23,6 +25,7 @@ Ext.define('TA.view.room.Add', {
 
         this.callParent(arguments);
         this.record.set('space', 10);
+        this.record.set('floor', this.roomFloorsStore.getAt(0).get('value'));
         this.form.loadRecord(this.record);
     },
 
@@ -58,11 +61,18 @@ Ext.define('TA.view.room.Add', {
                     allowBlank: false
                 },
                 {
-                    xtype: 'textfield',
+                    xtype: 'combobox',
                     fieldLabel: 'Floor',
-                    labelWidth: 180,
+                    store: this.roomFloorsStore,
                     name: 'floor',
-                    allowBlank: false
+                    labelWidth: 180,
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    allowBlank: false,
+                    listConfig: {
+                        minWidth: 50
+                    }
                 }
             ],
             buttons: [{

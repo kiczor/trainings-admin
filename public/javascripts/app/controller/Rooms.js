@@ -59,7 +59,8 @@ Ext.define('TA.controller.Rooms', {
 
     consumeListAddRoomClick: function() {
         var addView = this.getAdd({
-            record: this.getModel('Room').create()
+            record: this.getModel('Room').create(),
+            roomFloorsStore: this.getStore('RoomFloors')
         });
 
         addView.on('saveclick', this.consumeFormSaveClick, this);
