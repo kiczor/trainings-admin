@@ -26,7 +26,10 @@ Ext.define('TA.view.session.List', {
             },
             {header: 'Starts at', xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'startDate', flex: 1},
             {header: 'Ends at',  xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'stopDate', flex: 1},
-            {header: 'Room', dataIndex: 'trainingRoomId', flex: 1},
+            {header: 'Room', dataIndex: 'trainingRoomId', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                    return record.getRoom().get('name');
+                }
+            },
             {
                 xtype:'actioncolumn',
                 header: 'Actions',

@@ -16,6 +16,14 @@ Ext.define('TA.model.Session', {
         getterName: 'getTraining',
         setterName: 'setTraining',
         associationKey: 'training'
+    },{
+        type: 'belongsTo',
+        model: 'TA.model.Room',
+        primaryKey: 'id',
+        foreignKey: 'trainingRoomId',
+        getterName: 'getRoom',
+        setterName: 'setRoom',
+        associationKey: 'trainingRoom'
     }],
 
     proxy: {
