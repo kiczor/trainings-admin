@@ -18,6 +18,10 @@ Ext.define('TA.view.session.Add', {
 
     trainingsCombobox: null,
 
+    roomsStore: null,
+
+    roomsCombobox: null,
+
     initComponent: function() {
         this.addEvents('saveclick', 'cancelclick');
 
@@ -32,6 +36,9 @@ Ext.define('TA.view.session.Add', {
         if(this.record.get('trainingId') === 0) {
             this.trainingsCombobox.setValue('');
         }
+        if(this.record.get('trainingRoomId') === 0) {
+            this.roomsCombobox.setValue('');
+        }
     },
 
     buildForm: function() {
@@ -39,6 +46,18 @@ Ext.define('TA.view.session.Add', {
             store: this.trainingsStore,
             fieldLabel: 'Training',
             name: 'trainingId',
+
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'id',
+
+            allowBlank: false
+        });
+
+        this.roomsCombobox = Ext.create('Ext.form.ComboBox', {
+            store: this.roomsStore,
+            fieldLabel: 'Room',
+            name: 'trainingRoomId',
 
             queryMode: 'local',
             displayField: 'name',
@@ -85,13 +104,7 @@ Ext.define('TA.view.session.Add', {
                         }
                     ]
                 },
-                {
-                    xtype: 'textfield',
-                    name: 'trainingRoomId',
-                    fieldLabel: 'Room',
-                    labelWidth: 250,
-                    allowBlank: false
-                }
+                this.roomsCombobox
             ],
             buttons: [{
                 text: 'Save',

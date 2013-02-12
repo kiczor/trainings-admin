@@ -63,10 +63,13 @@ Ext.define('TA.controller.Sessions', {
     consumeListAddSessionClick: function() {
         var trainingsStore = Ext.create('TA.store.Trainings');
         trainingsStore.load();
+        var roomsStore = Ext.create('TA.store.Rooms');
+        roomsStore.load();
 
         var addView = this.getEdit({
             record: this.getModel('Session').create(),
-            trainingsStore: trainingsStore
+            trainingsStore: trainingsStore,
+            roomsStore: roomsStore
         });
 
         addView.on('saveclick', this.consumeFormSaveClick, this);
@@ -99,10 +102,13 @@ Ext.define('TA.controller.Sessions', {
     consumeListEditSessionClick: function(view, record) {
         var trainingsStore = Ext.create('TA.store.Trainings');
         trainingsStore.load();
+        var roomsStore = Ext.create('TA.store.Rooms');
+        roomsStore.load();
 
         var editView = this.getEdit({
             record: record,
-            trainingsStore: trainingsStore
+            trainingsStore: trainingsStore,
+            roomsStore: roomsStore
         });
 
         editView.on('saveclick', this.consumeFormSaveClick, this);
