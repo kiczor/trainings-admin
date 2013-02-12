@@ -14,6 +14,10 @@ Ext.define('TA.view.session.Add', {
     form: null,
     formPanel: null,
 
+    trainingsStore: null,
+
+    trainingsCombobox: null,
+
     initComponent: function() {
         this.addEvents('saveclick', 'cancelclick');
 
@@ -24,9 +28,25 @@ Ext.define('TA.view.session.Add', {
         this.callParent(arguments);
 
         this.form.loadRecord(this.record);
+
+        if(this.record.get('trainingId') === 0) {
+            this.trainingsCombobox.setValue('');
+        }
     },
 
     buildForm: function() {
+        this.trainingsCombobox = Ext.create('Ext.form.ComboBox', {
+            store: this.trainingsStore,
+            fieldLabel: 'Training',
+            name: 'trainingId',
+
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'id',
+
+            allowBlank: false
+        });
+
         this.formPanel = Ext.create('Ext.form.Panel', {
             defaults: { // defaults are applied to items, not the container
                 margin: 2,
@@ -37,13 +57,7 @@ Ext.define('TA.view.session.Add', {
                     xtype: 'hiddenfield',
                     name : 'id'
                 },
-                {
-                    xtype: 'textfield',
-                    name: 'trainingId',
-                    fieldLabel: 'Training',
-                    labelWidth: 250,
-                    allowBlank: false
-                },
+                this.trainingsCombobox,
                 {
                     xtype: 'fieldcontainer',
                     fieldLabel: 'Date',
