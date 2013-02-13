@@ -65,11 +65,14 @@ Ext.define('TA.controller.Sessions', {
         trainingsStore.load();
         var roomsStore = Ext.create('TA.store.Rooms');
         roomsStore.load();
+        var coachesStore = Ext.create('TA.store.Coaches');
+        coachesStore.load();
 
         var addView = this.getEdit({
             record: this.getModel('Session').create(),
             trainingsStore: trainingsStore,
-            roomsStore: roomsStore
+            roomsStore: roomsStore,
+            coachesStore: coachesStore
         });
 
         addView.on('saveclick', this.consumeFormSaveClick, this);
@@ -81,8 +84,10 @@ Ext.define('TA.controller.Sessions', {
         var record = form.getRecord();
         var values = form.getValues();
         console.log(values);
-        record.set(values);
-        record.save({
+        Ext.Ajax.request({
+            url: record.proxy.url + (record.get('id') ? '/'+record.get('id') : ''),
+            method: record.get('id') ? record.proxy.actionMethods['update'] : record.proxy.actionMethods['create'],
+            params:values,
             success: function() {
                 this.getStore('Sessions').load();
                 view.close();
@@ -104,11 +109,14 @@ Ext.define('TA.controller.Sessions', {
         trainingsStore.load();
         var roomsStore = Ext.create('TA.store.Rooms');
         roomsStore.load();
+        var coachesStore = Ext.create('TA.store.Coaches');
+        coachesStore.load();
 
         var editView = this.getEdit({
             record: record,
             trainingsStore: trainingsStore,
-            roomsStore: roomsStore
+            roomsStore: roomsStore,
+            coachesStore: coachesStore
         });
 
         editView.on('saveclick', this.consumeFormSaveClick, this);

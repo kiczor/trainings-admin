@@ -1,13 +1,15 @@
 Ext.define('TA.view.session.Form', {
     extend: 'Ext.form.Panel',
 
-    requires: ['TA.form.field.RadioGroup'],
+    requires: ['TA.form.field.RadioGroup', 'TA.form.field.CheckboxGroup'],
 
     trainingsStore: null,
     roomsStore: null,
+    coachesStore: null,
 
     trainingsComboBox: null,
     roomsRadioGroup: null,
+    coachesCheckboxGroup: null,
 
     record: null,
 
@@ -30,6 +32,11 @@ Ext.define('TA.view.session.Form', {
             this.trainingsComboBox.setValue(defaultTrainingId);
             this.trainingsComboBox.clearInvalid();
         }
+
+        if(this.record.getCoaches().count() !== 0) {
+            this.coachesCheckboxGroup.setValue(this.record.getCoaches().collect('id'));
+            this.coachesCheckboxGroup.clearInvalid();
+        }
     },
 
     buildFields: function() {
@@ -49,6 +56,19 @@ Ext.define('TA.view.session.Form', {
             store: this.roomsStore,
             fieldLabel: 'Room',
             name: 'trainingRoomId',
+
+            displayField: 'name',
+            valueField: 'id',
+
+            columns: 3,
+
+            allowBlank: false
+        });
+
+        this.coachesCheckboxGroup = Ext.create('TA.form.field.CheckboxGroup', {
+            store: this.coachesStore,
+            fieldLabel: 'Coaches',
+            name: 'coaches',
 
             displayField: 'name',
             valueField: 'id',
@@ -95,7 +115,8 @@ Ext.define('TA.view.session.Form', {
                     }
                 ]
             },
-            this.roomsRadioGroup
+            this.roomsRadioGroup,
+            this.coachesCheckboxGroup
         ];
     },
 
