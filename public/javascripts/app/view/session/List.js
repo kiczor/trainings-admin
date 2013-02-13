@@ -20,15 +20,19 @@ Ext.define('TA.view.session.List', {
 
         this.columns = [
             {xtype: 'rownumberer', text: '#'},
-            {header: 'Training', dataIndex: 'trainingId', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+            {header: 'Training', dataIndex: 'trainingId', flex: 10, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                     return record.getTraining().get('name');
                 }
             },
-            {header: 'Starts at', xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'startDate', flex: 1},
-            {header: 'Ends at',  xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'stopDate', flex: 1},
-            {header: 'Room', dataIndex: 'trainingRoomId', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-                    return record.getRoom().get('name');
-                }
+            {header: 'Starts at', xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'startDate', flex: 4},
+            {header: 'Ends at',  xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'stopDate', flex: 4},
+            {header: 'Room', dataIndex: 'trainingRoomId', flex: 4, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                return record.getRoom().get('name');
+            }
+            },
+            {header: 'Coaches #', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                return record.getCoaches().count();
+            }
             },
             {
                 xtype:'actioncolumn',
