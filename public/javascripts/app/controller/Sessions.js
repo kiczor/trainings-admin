@@ -80,7 +80,7 @@ Ext.define('TA.controller.Sessions', {
 
         var record = form.getRecord();
         var values = form.getValues();
-
+        console.log(values);
         record.set(values);
         record.save({
             success: function() {
