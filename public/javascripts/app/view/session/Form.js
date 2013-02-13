@@ -1,11 +1,13 @@
 Ext.define('TA.view.session.Form', {
     extend: 'Ext.form.Panel',
 
+    requires: ['TA.form.field.RadioGroup'],
+
     trainingsStore: null,
     roomsStore: null,
 
     trainingsComboBox: null,
-    roomsComboBox: null,
+    roomsRadioGroup: null,
 
     record: null,
 
@@ -28,11 +30,6 @@ Ext.define('TA.view.session.Form', {
             this.trainingsComboBox.setValue(defaultTrainingId);
             this.trainingsComboBox.clearInvalid();
         }
-        if(this.record.get('trainingRoomId') === 0) {
-            var defaultRoomId = this.roomsStore.first() ? this.roomsStore.first().get('id') : '';
-            this.roomsComboBox.setValue(defaultRoomId);
-            this.roomsComboBox.clearInvalid();
-        }
     },
 
     buildFields: function() {
@@ -48,15 +45,15 @@ Ext.define('TA.view.session.Form', {
             allowBlank: false
         });
 
-        this.roomsComboBox = Ext.create('Ext.form.ComboBox', {
+        this.roomsRadioGroup = Ext.create('TA.form.field.RadioGroup', {
             store: this.roomsStore,
             fieldLabel: 'Room',
-            labelWidth: 210,
             name: 'trainingRoomId',
 
-            queryMode: 'local',
             displayField: 'name',
             valueField: 'id',
+
+            columns: 3,
 
             allowBlank: false
         });
@@ -98,7 +95,7 @@ Ext.define('TA.view.session.Form', {
                     }
                 ]
             },
-            this.roomsComboBox
+            this.roomsRadioGroup
         ];
     },
 
