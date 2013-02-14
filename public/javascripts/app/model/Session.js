@@ -31,6 +31,13 @@ Ext.define('TA.model.Session', {
         primaryKey: 'id',
         foreignKey: 'trainingSessionId',
         associationKey: 'coaches'
+    },{
+        model: 'TA.model.Participant',
+        type: 'hasMany',
+        name: 'getParticipants',
+        primaryKey: 'id',
+        foreignKey: 'trainingSessionId',
+        associationKey: 'participants'
     }],
 
     proxy: {
