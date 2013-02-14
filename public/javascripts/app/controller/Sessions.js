@@ -67,12 +67,15 @@ Ext.define('TA.controller.Sessions', {
         roomsStore.load();
         var coachesStore = Ext.create('TA.store.Coaches');
         coachesStore.load();
+        var participantsStore = Ext.create('TA.store.Participants');
+        participantsStore.load();
 
         var addView = this.getEdit({
             record: this.getModel('Session').create(),
             trainingsStore: trainingsStore,
             roomsStore: roomsStore,
-            coachesStore: coachesStore
+            coachesStore: coachesStore,
+            participantsStore: participantsStore
         });
 
         addView.on('saveclick', this.consumeFormSaveClick, this);
@@ -111,12 +114,15 @@ Ext.define('TA.controller.Sessions', {
         roomsStore.load();
         var coachesStore = Ext.create('TA.store.Coaches');
         coachesStore.load();
+        var participantsStore = Ext.create('TA.store.Participants');
+        participantsStore.load();
 
         var editView = this.getEdit({
             record: record,
             trainingsStore: trainingsStore,
             roomsStore: roomsStore,
-            coachesStore: coachesStore
+            coachesStore: coachesStore,
+            participantsStore: participantsStore
         });
 
         editView.on('saveclick', this.consumeFormSaveClick, this);

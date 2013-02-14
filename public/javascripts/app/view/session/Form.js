@@ -6,10 +6,12 @@ Ext.define('TA.view.session.Form', {
     trainingsStore: null,
     roomsStore: null,
     coachesStore: null,
+    participantsStore: null,
 
     trainingsComboBox: null,
     roomsRadioGroup: null,
     coachesCheckboxGroup: null,
+    participantsCheckboxGroup: null,
 
     record: null,
 
@@ -77,6 +79,31 @@ Ext.define('TA.view.session.Form', {
 
             allowBlank: false
         });
+
+        this.participantsCheckboxGroup = Ext.create('Ext.form.CheckboxGroup', {
+            fieldLabel: 'Participants',
+
+            columns: 3,
+
+            allowBlank: false,
+
+            items: (function(store, sessionRecord) {
+                var items = [];
+
+                var sessionParticipantsIds = sessionRecord.getParticipants().collect('id');
+
+                store.each(function(record) {
+                    items.push({
+                        boxLabel: record.get('name'),
+                        name: 'participants',
+                        inputValue: record.get('id'),
+                        checked: Ext.Array.indexOf(sessionParticipantsIds, record.get('id')) === -1 ? false : true
+                    });
+                });
+
+                return items;
+            })(this.participantsStore, this.record)
+        });
     },
 
     buildItems: function() {
@@ -116,7 +143,8 @@ Ext.define('TA.view.session.Form', {
                 ]
             },
             this.roomsRadioGroup,
-            this.coachesCheckboxGroup
+            this.coachesCheckboxGroup,
+            this.participantsCheckboxGroup
         ];
     },
 

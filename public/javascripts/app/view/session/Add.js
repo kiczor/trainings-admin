@@ -19,10 +19,12 @@ Ext.define('TA.view.session.Add', {
     trainingsStore: null,
     roomsStore: null,
     coachesStore: null,
+    participantsStore: null,
 
     isTrainingsStoreLoaded: true,
     isRoomsStoreLoaded: true,
     isCoachesStoreLoaded: true,
+    isParticipantsStoreLoaded: true,
 
     initComponent: function() {
         this.addEvents('saveclick', 'cancelclick');
@@ -63,6 +65,12 @@ Ext.define('TA.view.session.Add', {
         }
         this.coachesStore.on('beforeload', this.onCoachesStoreBeforeLoad, this);
         this.coachesStore.on('load', this.onCoachesStoreLoad, this);
+
+        if(this.participantsStore.isLoading()) {
+            this.isParticipantsStoreLoaded = false;
+        }
+        this.participantsStore.on('beforeload', this.onParticipantsStoreBeforeLoad, this);
+        this.participantsStore.on('load', this.onParticipantsStoreLoad, this);
     },
 
     cleanupStores: function() {
@@ -72,6 +80,8 @@ Ext.define('TA.view.session.Add', {
         this.roomsStore.un('load', this.onRoomsStoreLoad, this);
         this.coachesStore.un('beforeload', this.onCoachesStoreBeforeLoad, this);
         this.coachesStore.un('load', this.onCoachesStoreLoad, this);
+        this.participantsStore.un('beforeload', this.onParticipantsStoreBeforeLoad, this);
+        this.participantsStore.un('load', this.onParticipantsStoreLoad, this);
     },
 
     buildForm: function() {
@@ -79,6 +89,7 @@ Ext.define('TA.view.session.Add', {
             trainingsStore: this.trainingsStore,
             roomsStore: this.roomsStore,
             coachesStore: this.coachesStore,
+            participantsStore: this.participantsStore,
             record: this.record
         });
 
@@ -109,9 +120,13 @@ Ext.define('TA.view.session.Add', {
         this.isCoachesStoreLoaded = false;
     },
 
+    onParticipantsStoreBeforeLoad: function() {
+        this.isParticipantsStoreLoaded = false;
+    },
+
     onTrainingsStoreLoad: function() {
         this.isTrainingsStoreLoaded = true;
-        if(this.isRoomsStoreLoaded && this.isCoachesStoreLoaded) {
+        if(this.isRoomsStoreLoaded && this.isCoachesStoreLoaded && this.isParticipantsStoreLoaded) {
             if(this.formPanel) {
                 this.remove(this.formPanel, true);
                 this.form = null;
@@ -123,7 +138,7 @@ Ext.define('TA.view.session.Add', {
 
     onRoomsStoreLoad: function() {
         this.isRoomsStoreLoaded = true;
-        if(this.isTrainingsStoreLoaded && this.isCoachesStoreLoaded) {
+        if(this.isTrainingsStoreLoaded && this.isCoachesStoreLoaded && this.isParticipantsStoreLoaded) {
             if(this.formPanel) {
                 this.remove(this.formPanel, true);
                 this.form = null;
@@ -135,7 +150,19 @@ Ext.define('TA.view.session.Add', {
 
     onCoachesStoreLoad: function() {
         this.isCoachesStoreLoaded = true;
-        if(this.isTrainingsStoreLoaded && this.isRoomsStoreLoaded) {
+        if(this.isTrainingsStoreLoaded && this.isRoomsStoreLoaded && this.isParticipantsStoreLoaded) {
+            if(this.formPanel) {
+                this.remove(this.formPanel, true);
+                this.form = null;
+                delete this.formPanel;
+            }
+            this.buildForm();
+        }
+    },
+
+    onParticipantsStoreLoad: function() {
+        this.isParticipantsStoreLoaded = true;
+        if(this.isTrainingsStoreLoaded && this.isRoomsStoreLoaded && this.isCoachesStoreLoaded) {
             if(this.formPanel) {
                 this.remove(this.formPanel, true);
                 this.form = null;
