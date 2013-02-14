@@ -7,6 +7,15 @@ Ext.define('TA.model.Training', {
         {name: 'days', type: 'int'}
     ],
 
+    associations: [{
+        type: 'hasMany',
+        model: 'TA.model.Session',
+        name: 'getSessions',
+        primaryKey: 'id',
+        foreignKey: 'trainingId',
+        associationKey: 'sessions'
+    }],
+
     proxy: {
         type: 'rest',
         url: 'training'

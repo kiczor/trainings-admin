@@ -4,6 +4,6 @@ Ext.define('TA.store.Trainings', {
 
     proxy: {
         type: 'ajax',
-        url: 'trainings'
+        url: 'trainings?relations=true'
     }
 });
