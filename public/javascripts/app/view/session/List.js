@@ -34,6 +34,10 @@ Ext.define('TA.view.session.List', {
                 return record.getCoaches().count();
             }
             },
+            {header: 'Participants #', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                return record.getParticipants().count();
+            }
+            },
             {
                 xtype:'actioncolumn',
                 header: 'Actions',
