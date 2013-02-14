@@ -23,6 +23,10 @@ Ext.define('TA.view.training.List' ,{
             {header: 'Name',  dataIndex: 'name',  flex: 10},
             {header: 'Cost', dataIndex: 'cost', flex: 1, align: 'right', renderer: Ext.util.Format.usMoney},
             {header: 'Days #', dataIndex: 'days', flex: 1, align: 'right'},
+            {header: 'Sessions #', flex: 1, align: 'right', renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                    return record.getSessions().count();
+                }
+            },
             {
                 xtype:'actioncolumn',
                 header: 'Actions',
