@@ -51,10 +51,14 @@ Ext.define('TA.controller.Sessions', {
         this.callParent();
         var roomsStore = Ext.create('TA.store.Rooms');
         roomsStore.load();
+        this.getComplex({
+            roomsStore: roomsStore
+        })
         this.getComplex().on('addsessionclick', this.consumeListAddSessionClick, this);
         this.getComplex().on('editsessionclick', this.consumeListEditSessionClick, this);
         this.getComplex().on('sessionedited', this.consumeListSessionEdited, this);
         this.getComplex().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
+        this.getComplex().reconfigure(this.getStore('Sessions'));
     },
 
     destroy: function() {
