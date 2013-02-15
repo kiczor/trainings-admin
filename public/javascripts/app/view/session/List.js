@@ -2,8 +2,6 @@ Ext.define('TA.view.session.List', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.sessionlist',
 
-    title: 'All sessions',
-
     roomsStore: null,
 
     plugins: [

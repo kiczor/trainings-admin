@@ -10,12 +10,19 @@ Ext.define('TA.controller.Sessions', {
     ],
 
     views: [
+        'session.Complex',
         'session.List',
         'session.Add',
         'session.Edit'
     ],
 
     refs: [
+        {
+            ref: 'complex',
+            selector: '',
+            xtype: 'sessioncomplex',
+            autoCreate: true
+        },
         {
             ref: 'list',
             selector: '',
@@ -44,27 +51,23 @@ Ext.define('TA.controller.Sessions', {
         this.callParent();
         var roomsStore = Ext.create('TA.store.Rooms');
         roomsStore.load();
-        this.getList({
-            roomsStore: roomsStore
-        })
-        this.getList().on('addsessionclick', this.consumeListAddSessionClick, this);
-        this.getList().on('editsessionclick', this.consumeListEditSessionClick, this);
-        this.getList().on('sessionedited', this.consumeListSessionEdited, this);
-        this.getList().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
-        this.getList().reconfigure(this.getStore('Sessions'));
+        this.getComplex().on('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getComplex().on('editsessionclick', this.consumeListEditSessionClick, this);
+        this.getComplex().on('sessionedited', this.consumeListSessionEdited, this);
+        this.getComplex().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
     },
 
     destroy: function() {
-        this.getList().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
-        this.getList().un('editsessionclick', this.consumeListEditSessionClick, this);
-        this.getList().un('sessionedited', this.consumeListSessionEdited, this);
-        this.getList().un('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getComplex().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
+        this.getComplex().un('editsessionclick', this.consumeListEditSessionClick, this);
+        this.getComplex().un('sessionedited', this.consumeListSessionEdited, this);
+        this.getComplex().un('addsessionclick', this.consumeListAddSessionClick, this);
         this.callParent();
     },
 
     execute: function(params) {
         this.getStore('Sessions').load();
-        return this.getList();
+        return this.getComplex();
     },
 
     consumeListAddSessionClick: function() {
