@@ -23,5 +23,24 @@ Ext.define('TA.store.Sessions', {
         }, this);
 
         return Ext.Object.getValues(data);
+    },
+
+    getChartDataPerTerm: function() {
+        var data = {};
+
+        this.each(function(record) {
+            var date = Ext.Date.format(record.get('startDate'), record.fields.get('startDate').dateFormat);
+            if(!data[date]) {
+                data[date] = {
+                    name: date,
+                    revenue: 0,
+                    participantsCount: 0
+                }
+            }
+            data[date].revenue += record.getRevenue();
+            data[date].participantsCount += record.getParticipants().count();
+        }, this);
+
+        return Ext.Object.getValues(data);
     }
 });

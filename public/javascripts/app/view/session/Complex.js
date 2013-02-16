@@ -14,6 +14,7 @@ Ext.define('TA.view.session.Complex', {
 
     sessionsTree: null,
     sessionsList: null,
+    sessionsChart: null,
 
     sessionsListRelayers: null,
     sessionsTreeRelayers: null,
@@ -29,6 +30,11 @@ Ext.define('TA.view.session.Complex', {
     },
 
     destroy: function() {
+        this.sessionsTree.un('coachclick', this.consumeSessionsListCoachClick, this);
+        this.sessionsTree.un('coachesclick', this.consumeSessionsListCoachesClick, this);
+        this.sessionsTree.un('trainingclick', this.consumeSessionsListTrainingClick, this);
+        this.sessionsTree.un('trainingsclick', this.consumeSessionsListTrainingsClick, this);
+
         this.sessionsStore.un('beforeload', this.consumeSessionsStoreBeforeLoad, this);
         this.sessionsStore.un('load', this.consumeSessionsStoreLoad, this);
         this.sessionsStore.un('filter', this.consumeSessionsStoreDataChanged, this);
@@ -44,6 +50,11 @@ Ext.define('TA.view.session.Complex', {
             height: '100%'
         });
 
+        this.sessionsTree.on('coachclick', this.consumeSessionsTreeCoachClick, this);
+        this.sessionsTree.on('coachesclick', this.consumeSessionsTreeCoachesClick, this);
+        this.sessionsTree.on('trainingclick', this.consumeSessionsTreeTrainingClick, this);
+        this.sessionsTree.on('trainingsclick', this.consumeSessionsTreeTrainingsClick, this);
+
         this.sessionsTreeRelayers = this.relayEvents(this.sessionsTree, ['coachclick', 'trainingclick', 'coachesclick', 'trainingsclick']);
 
         this.sessionsList = Ext.create('TA.view.session.List', {
@@ -51,6 +62,11 @@ Ext.define('TA.view.session.Complex', {
         });
 
         this.sessionsListRelayers = this.relayEvents(this.sessionsList, ['addsessionclick', 'editsessionclick', 'deletesessionclick', 'sessionedited']);
+
+        this.sessionsChart = Ext.create('TA.view.session.Chart', {
+            store: this.sessionsChartStore,
+            flex: 2
+        });
 
         this.items = [
             this.sessionsTree,
@@ -69,11 +85,7 @@ Ext.define('TA.view.session.Complex', {
                 },
                 items: [
                     this.sessionsList,
-                    {
-                        xtype: 'sessionchart',
-                        store: this.sessionsChartStore,
-                        flex: 2
-                    }
+                    this.sessionsChart
                 ]
             }
         ]
@@ -101,6 +113,27 @@ Ext.define('TA.view.session.Complex', {
     },
 
     consumeSessionsStoreDataChanged: function(store) {
-        this.sessionsChartStore.loadData(store.getChartData());
+        var renderMode = this.sessionsChart.getRenderMode();
+        if(renderMode === this.sessionsChart.self.TERMS_RENDERMODE) {
+            this.sessionsChartStore.loadData(store.getChartDataPerTerm());
+        }
+        else {
+            this.sessionsChartStore.loadData(store.getChartData());
+        }
+    },
+
+    consumeSessionsTreeCoachClick: function(view, coach) {
+        this.sessionsChart.setRenderMode(this.sessionsChart.self.DEFAULT_RENDERMODE);
+    },
+    consumeSessionsTreeCoachesClick: function(view) {
+        this.sessionsChart.setRenderMode(this.sessionsChart.self.DEFAULT_RENDERMODE);
+        this.sessionsChartStore.loadData(this.sessionsStore.getChartData());
+    },
+    consumeSessionsTreeTrainingClick: function(view, training) {
+        this.sessionsChart.setRenderMode(this.sessionsChart.self.TERMS_RENDERMODE);
+    },
+    consumeSessionsTreeTrainingsClick: function(view) {
+        this.sessionsChart.setRenderMode(this.sessionsChart.self.TERMS_RENDERMODE);
+        this.sessionsChartStore.loadData(this.sessionsStore.getChartDataPerTerm());
     }
 });
