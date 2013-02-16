@@ -4,6 +4,10 @@ Ext.define('TA.view.session.List', {
 
     roomsStore: null,
 
+    viewConfig: {
+        loadMask: false
+    },
+
     plugins: [
         Ext.create('Ext.grid.plugin.CellEditing', {
             clicksToEdit: 1,

@@ -2,11 +2,18 @@ Ext.define('TA.controller.Sessions', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'Session'
+        'Session',
+        'Training',
+        'TrainingNode',
+        'Coach',
+        'CoachNode'
     ],
 
     stores: [
-        'Sessions'
+        'Sessions',
+        'SessionsTree',
+        'TrainingsTree',
+        'CoachesTree'
     ],
 
     views: [
@@ -51,8 +58,13 @@ Ext.define('TA.controller.Sessions', {
         this.callParent();
         var roomsStore = Ext.create('TA.store.Rooms');
         roomsStore.load();
+
+        this.getStore('SessionsTree').getRootNode().appendChild(this.getStore('TrainingsTree').getRootNode());
+        this.getStore('SessionsTree').getRootNode().appendChild(this.getStore('CoachesTree').getRootNode());
+
         this.getComplex({
-            roomsStore: roomsStore
+            roomsStore: roomsStore,
+            sessionsTreeStore: this.getStore('SessionsTree')
         })
         this.getComplex().on('addsessionclick', this.consumeListAddSessionClick, this);
         this.getComplex().on('editsessionclick', this.consumeListEditSessionClick, this);
