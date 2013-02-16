@@ -14,6 +14,7 @@ Ext.define('TA.view.session.Complex', {
     sessionsList: null,
 
     sessionsListRelayers: null,
+    sessionsTreeRelayers: null,
 
     layout: {
         type: 'hbox'
@@ -28,6 +29,7 @@ Ext.define('TA.view.session.Complex', {
         this.sessionsStore.un('beforeload', this.consumeSessionsStoreBeforeLoad, this);
         this.sessionsStore.un('load', this.consumeSessionsStoreLoad, this);
         Ext.destroy(this.sessionsListRelayers);
+        Ext.destroy(this.sessionsTreeRelayers);
         this.callParent();
     },
 
@@ -38,6 +40,9 @@ Ext.define('TA.view.session.Complex', {
             height: '100%',
             bodyStyle:'border-top:none;border-bottom:none;border-left:none;'
         });
+
+        this.sessionsTreeRelayers = this.relayEvents(this.sessionsTree, ['coachclick', 'trainingclick', 'coachesclick', 'trainingsclick']);
+
         this.sessionsList = Ext.create('TA.view.session.List', {
             flex: 5,
             height: '100%',

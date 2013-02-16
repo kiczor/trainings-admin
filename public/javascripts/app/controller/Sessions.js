@@ -70,10 +70,21 @@ Ext.define('TA.controller.Sessions', {
         this.getComplex().on('editsessionclick', this.consumeListEditSessionClick, this);
         this.getComplex().on('sessionedited', this.consumeListSessionEdited, this);
         this.getComplex().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
+
+        this.getComplex().on('coachclick', this.consumeComplexCoachClick, this);
+        this.getComplex().on('trainingclick', this.consumeComplexTrainingClick, this);
+        this.getComplex().on('coachesclick', this.consumeComplexCoachesClick, this);
+        this.getComplex().on('trainingsclick', this.consumeComplexTrainingsClick, this);
+
         this.getComplex().reconfigure(this.getStore('Sessions'));
     },
 
     destroy: function() {
+        this.getComplex().un('coachclick', this.consumeComplexCoachClick, this);
+        this.getComplex().un('trainingclick', this.consumeComplexTrainingClick, this);
+        this.getComplex().un('coachesclick', this.consumeComplexCoachesClick, this);
+        this.getComplex().un('trainingsclick', this.consumeComplexTrainingsClick, this);
+
         this.getComplex().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
         this.getComplex().un('editsessionclick', this.consumeListEditSessionClick, this);
         this.getComplex().un('sessionedited', this.consumeListSessionEdited, this);
@@ -82,6 +93,7 @@ Ext.define('TA.controller.Sessions', {
     },
 
     execute: function(params) {
+        this.getStore('Sessions').clearFilter(true);
         this.getStore('Sessions').load();
         return this.getComplex();
     },
@@ -186,5 +198,32 @@ Ext.define('TA.controller.Sessions', {
             },
             scope: this
         });
+    },
+
+
+    consumeComplexCoachClick: function(view, coach) {
+        this.getStore('Sessions').clearFilter(true);
+        this.getStore('Sessions').filterBy(function(record, id) {
+            if(Ext.Array.indexOf(record.getCoaches().collect('id'), coach.get('id')) === -1) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    },
+
+    consumeComplexTrainingClick: function(view, training) {
+        this.getStore('Sessions').clearFilter(true);
+        this.getStore('Sessions').filter('trainingId', training.get('id'));
+    },
+
+    consumeComplexCoachesClick: function(view) {
+        this.getStore('Sessions').clearFilter();
+    },
+
+    consumeComplexTrainingsClick: function(view) {
+        this.getStore('Sessions').clearFilter();
     }
+
 });
