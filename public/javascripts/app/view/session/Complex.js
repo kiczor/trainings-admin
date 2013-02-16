@@ -37,16 +37,12 @@ Ext.define('TA.view.session.Complex', {
         this.sessionsTree = Ext.create('TA.view.session.Tree', {
             store: this.sessionsTreeStore,
             flex: 1,
-            height: '100%',
-            bodyStyle:'border-top:none;border-bottom:none;border-left:none;'
+            height: '100%'
         });
 
         this.sessionsTreeRelayers = this.relayEvents(this.sessionsTree, ['coachclick', 'trainingclick', 'coachesclick', 'trainingsclick']);
 
         this.sessionsList = Ext.create('TA.view.session.List', {
-            flex: 5,
-            height: '100%',
-            border: false,
             roomsStore: this.roomsStore
         });
 
@@ -54,7 +50,28 @@ Ext.define('TA.view.session.Complex', {
 
         this.items = [
             this.sessionsTree,
-            this.sessionsList
+            {
+                xtype: 'container',
+                bodyStyle:'border-top:none;border-bottom:none;border-right:none;',
+                flex: 5,
+                height: '100%',
+                border: false,
+                layout: {
+                    type: 'vbox'
+                },
+                defaults: {
+                    flex: 1,
+                    width: '100%'
+                },
+                items: [
+                    this.sessionsList,
+                    {
+                        xtype: 'component',
+                        html: 'chart here',
+                        flex: 2
+                    }
+                ]
+            }
         ]
     },
 
