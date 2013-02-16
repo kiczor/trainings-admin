@@ -4,7 +4,10 @@ Ext.define('TA.store.Sessions', {
 
     proxy: {
         type: 'ajax',
-        url: 'trainingsessions?relations=true'
+        reader: {
+            type: 'ta_fastjson_sessions'
+        },
+        url: 'trainingsessions/fast?relations=true'
     },
 
     getChartData: function() {
