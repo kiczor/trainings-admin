@@ -43,5 +43,9 @@ Ext.define('TA.model.Session', {
     proxy: {
         type: 'rest',
         url: 'trainingsession'
+    },
+
+    getRevenue: function() {
+        return this.getTraining().getCostPerParticipant() * this.getParticipants().count();
     }
 });

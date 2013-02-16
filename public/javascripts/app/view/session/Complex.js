@@ -2,13 +2,15 @@ Ext.define('TA.view.session.Complex', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.sessioncomplex',
 
-    requires: ['TA.view.session.Tree'],
+    requires: ['TA.view.session.Tree', 'TA.view.session.Chart', 'TA.store.SessionsChart'],
 
     title: 'Sessions',
 
     sessionsStore: null,
     roomsStore: null,
     sessionsTreeStore: null,
+
+    sessionsChartStore: null,
 
     sessionsTree: null,
     sessionsList: null,
@@ -21,6 +23,7 @@ Ext.define('TA.view.session.Complex', {
     },
 
     initComponent: function() {
+        this.sessionsChartStore = Ext.create('TA.store.SessionsChart');
         this.buildItems();
         this.callParent();
     },
@@ -28,6 +31,7 @@ Ext.define('TA.view.session.Complex', {
     destroy: function() {
         this.sessionsStore.un('beforeload', this.consumeSessionsStoreBeforeLoad, this);
         this.sessionsStore.un('load', this.consumeSessionsStoreLoad, this);
+        this.sessionsStore.un('filter', this.consumeSessionsStoreDataChanged, this);
         Ext.destroy(this.sessionsListRelayers);
         Ext.destroy(this.sessionsTreeRelayers);
         this.callParent();
@@ -66,8 +70,8 @@ Ext.define('TA.view.session.Complex', {
                 items: [
                     this.sessionsList,
                     {
-                        xtype: 'component',
-                        html: 'chart here',
+                        xtype: 'sessionchart',
+                        store: this.sessionsChartStore,
                         flex: 2
                     }
                 ]
@@ -79,10 +83,12 @@ Ext.define('TA.view.session.Complex', {
         if (this.sessionsStore) {
             this.sessionsStore.un('beforeload', this.consumeSessionsStoreBeforeLoad, this);
             this.sessionsStore.un('load', this.consumeSessionsStoreLoad, this);
+            this.sessionsStore.un('datachanged', this.consumeSessionsStoreDataChanged, this);
         }
         this.sessionsStore = sessionsStore;
         this.sessionsStore.on('beforeload', this.consumeSessionsStoreBeforeLoad, this);
         this.sessionsStore.on('load', this.consumeSessionsStoreLoad, this);
+        this.sessionsStore.on('datachanged', this.consumeSessionsStoreDataChanged, this);
         this.sessionsList.reconfigure(sessionsStore);
     },
 
@@ -92,5 +98,9 @@ Ext.define('TA.view.session.Complex', {
 
     consumeSessionsStoreLoad: function(store, records, eOpts) {
         this.setLoading(false);
+    },
+
+    consumeSessionsStoreDataChanged: function(store) {
+        this.sessionsChartStore.loadData(store.getChartData());
     }
 });

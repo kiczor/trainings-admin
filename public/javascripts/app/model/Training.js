@@ -19,5 +19,9 @@ Ext.define('TA.model.Training', {
     proxy: {
         type: 'rest',
         url: 'training'
+    },
+
+    getCostPerParticipant: function() {
+        return this.get('cost') * this.get('days');
     }
 });
