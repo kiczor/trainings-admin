@@ -13,6 +13,9 @@ Ext.define('TA.view.session.Form', {
     coachesCheckboxGroup: null,
     participantsCheckboxGroup: null,
 
+    startDateDateField: null,
+    stopDateDateField: null,
+
     record: null,
 
     defaults: { // defaults are applied to items, not the container
@@ -104,6 +107,41 @@ Ext.define('TA.view.session.Form', {
                 return items;
             })(this.participantsStore, this.record)
         });
+
+        this.startDateDateField = Ext.create('Ext.form.field.Date', {
+            anchor: '100%',
+            name: 'startDate',
+            format: 'Y-m-d',
+            emptyText: 'since date',
+            allowBlank: false,
+            listeners: {
+                change: function(field, newValue, oldValue, eOpts) {
+                    this.stopDateDateField.setMinValue(newValue);
+                },
+                scope: this
+            }
+        });
+
+        this.stopDateDateField = Ext.create('Ext.form.field.Date', {
+            anchor: '100%',
+            name: 'stopDate',
+            format: 'Y-m-d',
+            emptyText: 'due date',
+            allowBlank: false,
+            listeners: {
+                change: function(field, newValue, oldValue, eOpts) {
+                    this.startDateDateField.setMaxValue(newValue);
+                },
+                scope: this
+            }
+        });
+
+        if(this.stopDateDateField.getValue()) {
+            this.startDateDateField.setMaxValue(this.stopDateDateField.getValue());
+        }
+        if(this.startDateDateField.getValue()) {
+            this.stopDateDateField.setMinValue(this.startDateDateField.getValue());
+        }
     },
 
     buildItems: function() {
@@ -125,21 +163,8 @@ Ext.define('TA.view.session.Form', {
                     flex: 1
                 },
                 items: [
-                    {
-                        xtype: 'datefield',
-                        anchor: '100%',
-                        name: 'startDate',
-                        format: 'Y-m-d',
-                        emptyText: 'since date',
-                        allowBlank: false
-                    },{
-                        xtype: 'datefield',
-                        anchor: '100%',
-                        name: 'stopDate',
-                        format: 'Y-m-d',
-                        emptyText: 'due date',
-                        allowBlank: false
-                    }
+                    this.startDateDateField,
+                    this.stopDateDateField
                 ]
             },
             this.roomsRadioGroup,
