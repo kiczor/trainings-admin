@@ -35,11 +35,6 @@ Ext.define('TA.view.toolbar.Navigation', {
             xtype: 'button',
             itemId: 'sessions',
             text: 'Sessions'
-        },'->',
-        {
-            xtype: 'button',
-            itemId: 'callendar',
-            text: 'Callendar'
         }
     ]
 });
