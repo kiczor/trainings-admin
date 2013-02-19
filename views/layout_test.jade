@@ -16,11 +16,14 @@ html
             window.__test_mode__ = true;
 
         #sources
+        script(type='text/javascript', src='/javascripts/app/view/toolbar/Navigation.js')
         script(type='text/javascript', src='/javascripts/app.js')
         script(type='text/javascript', src='/javascripts/testsinit.js')
 
         #tests
+        script(type='text/javascript', src='/javascripts/app/view/toolbar/tests/NavigationTests.js')
         script(type='text/javascript', src='/javascripts/tests/appTests.js')
+
 
         script(type='text/javascript')
                 var jasmineEnv = jasmine.getEnv();
@@ -40,3 +43,4 @@ html
                 jasmineEnv.execute();
                 }
     body
+        div(id='tests')
