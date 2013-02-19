@@ -12,13 +12,21 @@ describe('TA', function() {
         app = null;
     });
 
-    it('should have proper name', function() {
-        expect(app).toBeDefined();
-        expect(app.name).toEqual('TA');
+    describe('[constructor]', function() {
+        it('should have proper name', function() {
+            expect(app).toBeDefined();
+            expect(app.name).toEqual('TA');
+        });
+
+        it('should have proper appFolder set', function() {
+            expect(app).toBeDefined();
+            expect(app.appFolder).toEqual('javascripts/app');
+        });
+
+        it('should have Navigation controller', function() {
+            expect(app).toBeDefined();
+            expect(app.getController('Navigation')).toBeDefined();
+        });
     });
 
-    it('should have proper appFolder set', function() {
-        expect(app).toBeDefined();
-        expect(app.appFolder).toEqual('javascripts/app');
-    });
 });
