@@ -52,6 +52,7 @@ Ext.define('TA.controller.Sessions', {
         this.getList().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
         this.getList().un('editsessionclick', this.consumeListEditSessionClick, this);
         this.getList().un('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getList().destroy();
         this.callParent();
     },
 

@@ -21,4 +21,10 @@ describe('TA', function() {
         expect(app).toBeDefined();
         expect(app.appFolder).toEqual('javascripts/app');
     });
+
+    it('should have Sessions controller', function() {
+        expect(app).toBeDefined();
+        expect(app.getController('Sessions')).toBeDefined();
+        expect(app.getController('Sessions') instanceof TA.controller.Sessions).toBeTruthy();
+    });
 });

@@ -4,18 +4,23 @@ Ext.define('TA.view.session.List', {
 
     title: 'All sessions',
 
+    addSessionBtn: null,
+
     initComponent: function() {
         this.addEvents('addsessionclick', 'editsessionclick', 'deletesessionclick');
+
+        this.addSessionBtn = Ext.create('Ext.button.Button', {
+            text: 'Add session',
+            listeners: {
+                scope: this,
+                click: this.onSessionAdd
+            }
+        });
 
         this.dockedItems = [{
             xtype:'toolbar',
             dock: 'top',
-            items: [{
-                xtype: 'button',
-                text: 'Add session',
-                scope: this,
-                handler: this.onSessionAdd
-            }]
+            items: [this.addSessionBtn]
         }];
 
         this.columns = [
