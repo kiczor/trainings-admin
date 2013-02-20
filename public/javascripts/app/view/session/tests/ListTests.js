@@ -81,6 +81,24 @@ describe('TA.view.session.List', function() {
             expect(list.dockedItems.getAt(2).items.getAt(0) === list.addSessionBtn).toBeTruthy();
         });
 
+        it('should have edit session button', function() {
+            expect(list).toBeDefined();
+            expect(list.dockedItems.getAt(2)).toBeDefined();
+            expect(list.editSessionBtn).toBeDefined();
+            expect(list.editSessionBtn.isXType('button')).toBeTruthy();
+            expect(list.editSessionBtn.text).toEqual('Edit session');
+            expect(list.dockedItems.getAt(2).items.getAt(1) === list.editSessionBtn).toBeTruthy();
+        });
+
+        it('should have delete session button', function() {
+            expect(list).toBeDefined();
+            expect(list.dockedItems.getAt(2)).toBeDefined();
+            expect(list.deleteSessionBtn).toBeDefined();
+            expect(list.deleteSessionBtn.isXType('button')).toBeTruthy();
+            expect(list.deleteSessionBtn.text).toEqual('Delete session');
+            expect(list.dockedItems.getAt(2).items.getAt(2) === list.deleteSessionBtn).toBeTruthy();
+        });
+
         it("should have event 'addsessionclick'", function(){
             expect(list.events['addsessionclick']).toBeDefined();
         });
@@ -115,7 +133,71 @@ describe('TA.view.session.List', function() {
             expect(spy.mostRecentCall.args[0] === list).toBeTruthy();
         });
 
-        it('should emit editsessionclick event on add button click', function() {
+
+        it('should emit editsessionclick event on edit button click', function() {
+            mockStore.load();
+            waitsFor(function() {
+                return mockStore.count() > 0;
+            }, 'Loading data for sessions store', 3000);
+
+            runs(function() {
+                expect(list).toBeDefined();
+                var btn = list.editSessionBtn;
+                expect(btn).toBeDefined();
+                expect(btn.disabled).toBeTruthy();
+
+                list.getSelectionModel().select(0);
+
+                expect(btn.disabled).toBeFalsy();
+
+                var listener = {
+                    callback: function() {}
+                };
+
+                var spy = spyOn(listener, 'callback');
+
+                list.on('editsessionclick', listener.callback, listener);
+
+                btn.fireEvent('click');
+
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mostRecentCall.args[0] === list).toBeTruthy();
+            });
+        });
+
+
+        it('should emit deletesessionclick event on delete button click', function() {
+            mockStore.load();
+            waitsFor(function() {
+                return mockStore.count() > 0;
+            }, 'Loading data for sessions store', 3000);
+
+            runs(function() {
+                expect(list).toBeDefined();
+                var btn = list.deleteSessionBtn;
+                expect(btn).toBeDefined();
+                expect(btn.disabled).toBeTruthy();
+
+                list.getSelectionModel().select(0);
+
+                expect(btn.disabled).toBeFalsy();
+
+                var listener = {
+                    callback: function() {}
+                };
+
+                var spy = spyOn(listener, 'callback');
+
+                list.on('deletesessionclick', listener.callback, listener);
+
+                btn.fireEvent('click');
+
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mostRecentCall.args[0] === list).toBeTruthy();
+            });
+        });
+
+        it('should emit editsessionclick event on edit action button click', function() {
             mockStore.load();
             waitsFor(function() {
                 return mockStore.count() > 0;
@@ -142,7 +224,7 @@ describe('TA.view.session.List', function() {
             });
         });
 
-        it('should emit deletesessionclick event on add button click', function() {
+        it('should emit deletesessionclick event on delete action button click', function() {
             mockStore.load();
             waitsFor(function() {
                 return mockStore.count() > 0;

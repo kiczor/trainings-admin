@@ -5,6 +5,8 @@ Ext.define('TA.view.session.List', {
     title: 'All sessions',
 
     addSessionBtn: null,
+    editSessionBtn: null,
+    deleteSessionBtn: null,
 
     initComponent: function() {
         this.addEvents('addsessionclick', 'editsessionclick', 'deletesessionclick');
@@ -17,10 +19,30 @@ Ext.define('TA.view.session.List', {
             }
         });
 
+
+
+        this.editSessionBtn = Ext.create('Ext.Button', {
+            text: 'Edit session',
+            disabled: true,
+            listeners: {
+                scope: this,
+                click: this.onSessionEditSelected
+            }
+        });
+
+        this.deleteSessionBtn = Ext.create('Ext.Button', {
+            text: 'Delete session',
+            disabled: true,
+            listeners: {
+                scope: this,
+                click: this.onSessionDeleteSelected
+            }
+        });
+
         this.dockedItems = [{
             xtype:'toolbar',
             dock: 'top',
-            items: [this.addSessionBtn]
+            items: [this.addSessionBtn, this.editSessionBtn, this.deleteSessionBtn]
         }];
 
         this.columns = [
@@ -65,6 +87,13 @@ Ext.define('TA.view.session.List', {
         ];
 
         this.callParent(arguments);
+
+        this.getSelectionModel().on('selectionchange', this.onSelectionModelSelectionChange, this);
+    },
+
+    destroy: function() {
+        this.getSelectionModel().un('selectionchange', this.onSelectionModelSelectionChange, this);
+        this.callParent();
     },
 
     onSessionAdd: function() {
@@ -77,5 +106,34 @@ Ext.define('TA.view.session.List', {
 
     onSessionDelete: function(record) {
         this.fireEvent('deletesessionclick', this, record);
+    },
+
+    onSelectionModelSelectionChange: function(sm, selected, eOpts) {
+        if(selected.length) {
+            this.editSessionBtn.enable();
+            this.deleteSessionBtn.enable();
+        }
+        else {
+            this.editSessionBtn.disable();
+            this.deleteSessionBtn.disable();
+        }
+    },
+
+    onSessionEditSelected: function() {
+        var sm = this.getSelectionModel();
+        var records = sm.getSelection();
+
+        if(records.length > 0) {
+            this.onSessionEdit(records[0]);
+        }
+    },
+
+    onSessionDeleteSelected: function() {
+        var sm = this.getSelectionModel();
+        var records = sm.getSelection();
+
+        if(records.length > 0) {
+            this.onSessionDelete(records[0]);
+        }
     }
 });
