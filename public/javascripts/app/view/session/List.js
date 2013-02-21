@@ -4,12 +4,25 @@ Ext.define('TA.view.session.List', {
 
     title: 'All sessions',
 
+    roomsStore: null,
+
+    plugins: [
+        Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1,
+            listeners: {
+                'edit': function(editor, e) {
+                    e.grid.onSessionEdited(e.record);
+                }
+            }
+        })
+    ],
+
     addSessionBtn: null,
     editSessionBtn: null,
     deleteSessionBtn: null,
 
     initComponent: function() {
-        this.addEvents('addsessionclick', 'editsessionclick', 'deletesessionclick');
+        this.addEvents('addsessionclick', 'editsessionclick', 'deletesessionclick', 'sessionedited');
 
         this.addSessionBtn = Ext.create('Ext.button.Button', {
             text: 'Add session',
@@ -55,7 +68,17 @@ Ext.define('TA.view.session.List', {
             {header: 'Ends at',  xtype: 'datecolumn', format: 'Y-m-d (l)', dataIndex: 'stopDate', flex: 4},
             {header: 'Room', dataIndex: 'trainingRoomId', flex: 4, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                 return record.getRoom().get('name');
-            }
+            },
+                editor: {
+                    xtype: 'combobox',
+                    store: this.roomsStore,
+
+                    queryMode: 'local',
+                    displayField: 'name',
+                    valueField: 'id',
+
+                    allowBlank: false
+                }
             },
             {header: 'Coaches #', flex: 1, renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                 return record.getCoaches().count();
@@ -135,5 +158,9 @@ Ext.define('TA.view.session.List', {
         if(records.length > 0) {
             this.onSessionDelete(records[0]);
         }
+    },
+
+    onSessionEdited: function(record) {
+        this.fireEvent('sessionedited', this, record);
     }
 });

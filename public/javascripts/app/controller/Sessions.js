@@ -42,9 +42,15 @@ Ext.define('TA.controller.Sessions', {
 
     onLaunch: function() {
         this.callParent();
+        var roomsStore = Ext.create('TA.store.Rooms');
+        roomsStore.load();
+        this.getList({
+            roomsStore: roomsStore
+        })
         this.getList().on('addsessionclick', this.consumeListAddSessionClick, this);
         this.getList().on('editsessionclick', this.consumeListEditSessionClick, this);
         this.getList().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
+        this.getList().on('sessionedited', this.consumeListSessionEdited, this);
         this.getList().reconfigure(this.getStore('Sessions'));
     },
 
@@ -52,6 +58,7 @@ Ext.define('TA.controller.Sessions', {
         this.getList().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
         this.getList().un('editsessionclick', this.consumeListEditSessionClick, this);
         this.getList().un('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getList().un('sessionedited', this.consumeListSessionEdited, this);
         this.getList().destroy();
         this.callParent();
     },
@@ -137,6 +144,23 @@ Ext.define('TA.controller.Sessions', {
             failure: function() {
                 Ext.MessageBox.show({
                     title: 'Deleting session',
+                    msg: 'There has been an error processing your request!!!',
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.Msg.ERROR
+                });
+            },
+            scope: this
+        });
+    },
+
+    consumeListSessionEdited: function(view, record) {
+        record.save({
+            success: function() {
+                this.getStore('Sessions').reload();
+            },
+            failure: function() {
+                Ext.MessageBox.show({
+                    title: 'Saving session data',
                     msg: 'There has been an error processing your request!!!',
                     buttons: Ext.MessageBox.OK,
                     icon: Ext.Msg.ERROR
