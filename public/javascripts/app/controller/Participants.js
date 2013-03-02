@@ -17,7 +17,7 @@ Ext.define('TA.controller.Participants', {
 
     refs: [
         {
-            ref: 'list',
+            ref: 'mainView',
             selector: '',
             xtype: 'participantlist',
             autoCreate: true
@@ -42,22 +42,22 @@ Ext.define('TA.controller.Participants', {
 
     onLaunch: function() {
         this.callParent();
-        this.getList().on('addparticipantclick', this.consumeListAddParticipantClick, this);
-        this.getList().on('editparticipantclick', this.consumeListEditParticipantClick, this);
-        this.getList().on('deleteparticipantclick', this.consumeListDeleteParticipantClick, this);
-        this.getList().reconfigure(this.getStore('Participants'));
+        this.getMainView().on('addparticipantclick', this.consumeListAddParticipantClick, this);
+        this.getMainView().on('editparticipantclick', this.consumeListEditParticipantClick, this);
+        this.getMainView().on('deleteparticipantclick', this.consumeListDeleteParticipantClick, this);
+        this.getMainView().reconfigure(this.getStore('Participants'));
     },
 
     destroy: function() {
-        this.getList().on('deleteparticipantclick', this.consumeListDeleteParticipantClick, this);
-        this.getList().on('editparticipantclick', this.consumeListEditParticipantClick, this);
-        this.getList().on('addparticipantclick', this.consumeListAddParticipantClick, this);
+        this.getMainView().on('deleteparticipantclick', this.consumeListDeleteParticipantClick, this);
+        this.getMainView().on('editparticipantclick', this.consumeListEditParticipantClick, this);
+        this.getMainView().on('addparticipantclick', this.consumeListAddParticipantClick, this);
         this.callParent();
     },
 
     execute: function(params) {
         this.getStore('Participants').load();
-        return this.getList();
+        return this.getMainView();
     },
 
     consumeListAddParticipantClick: function(list) {

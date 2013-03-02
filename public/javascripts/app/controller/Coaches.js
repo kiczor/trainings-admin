@@ -17,7 +17,7 @@ Ext.define('TA.controller.Coaches', {
 
     refs: [
         {
-            ref: 'list',
+            ref: 'mainView',
             selector: '',
             xtype: 'coachlist',
             autoCreate: true
@@ -42,22 +42,22 @@ Ext.define('TA.controller.Coaches', {
 
     onLaunch: function() {
         this.callParent();
-        this.getList().on('addcoachclick', this.consumeListAddCoachClick, this);
-        this.getList().on('editcoachclick', this.consumeListEditCoachClick, this);
-        this.getList().on('deletecoachclick', this.consumeListDeleteCoachClick, this);
-        this.getList().reconfigure(this.getStore('Coaches'));
+        this.getMainView().on('addcoachclick', this.consumeListAddCoachClick, this);
+        this.getMainView().on('editcoachclick', this.consumeListEditCoachClick, this);
+        this.getMainView().on('deletecoachclick', this.consumeListDeleteCoachClick, this);
+        this.getMainView().reconfigure(this.getStore('Coaches'));
     },
 
     destroy: function() {
-        this.getList().un('deletecoachclick', this.consumeListDeleteCoachClick, this);
-        this.getList().un('editcoachclick', this.consumeListEditCoachClick, this);
-        this.getList().un('addcoachclick', this.consumeListAddCoachClick, this);
+        this.getMainView().un('deletecoachclick', this.consumeListDeleteCoachClick, this);
+        this.getMainView().un('editcoachclick', this.consumeListEditCoachClick, this);
+        this.getMainView().un('addcoachclick', this.consumeListAddCoachClick, this);
         this.callParent();
     },
 
     execute: function(params) {
         this.getStore('Coaches').load();
-        return this.getList();
+        return this.getMainView();
     },
 
     consumeListAddCoachClick: function(list) {

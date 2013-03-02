@@ -18,7 +18,7 @@ Ext.define('TA.controller.Rooms', {
 
     refs: [
         {
-            ref: 'list',
+            ref: 'mainView',
             selector: '',
             xtype: 'roomlist',
             autoCreate: true
@@ -44,28 +44,28 @@ Ext.define('TA.controller.Rooms', {
     onLaunch: function() {
         this.callParent();
         this.initList();
-        this.getList().reconfigure(this.getStore('Rooms'));
+        this.getMainView().reconfigure(this.getStore('Rooms'));
     },
 
     destroy: function() {
-        this.getList().un('deleteroomclick', this.consumeListDeleteRoomClick, this);
-        this.getList().un('editroomclick', this.consumeListEditRoomClick, this);
-        this.getList().un('addroomclick', this.consumeListAddRoomClick, this);
+        this.getMainView().un('deleteroomclick', this.consumeListDeleteRoomClick, this);
+        this.getMainView().un('editroomclick', this.consumeListEditRoomClick, this);
+        this.getMainView().un('addroomclick', this.consumeListAddRoomClick, this);
         this.callParent();
     },
 
     initList: function() {
-        this.getList({
+        this.getMainView({
             roomFloorsStore: this.getStore('RoomFloors')
         });
-        this.getList().on('addroomclick', this.consumeListAddRoomClick, this);
-        this.getList().on('editroomclick', this.consumeListEditRoomClick, this);
-        this.getList().on('deleteroomclick', this.consumeListDeleteRoomClick, this);
+        this.getMainView().on('addroomclick', this.consumeListAddRoomClick, this);
+        this.getMainView().on('editroomclick', this.consumeListEditRoomClick, this);
+        this.getMainView().on('deleteroomclick', this.consumeListDeleteRoomClick, this);
     },
 
     execute: function(params) {
         this.getStore('Rooms').load();
-        return this.getList();
+        return this.getMainView();
     },
 
     consumeListAddRoomClick: function() {

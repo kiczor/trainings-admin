@@ -17,7 +17,7 @@ Ext.define('TA.controller.Trainings', {
 
     refs: [
         {
-            ref: 'list',
+            ref: 'mainView',
             selector: '',
             xtype: 'traininglist',
             autoCreate: true
@@ -42,22 +42,22 @@ Ext.define('TA.controller.Trainings', {
 
     onLaunch: function() {
         this.callParent();
-        this.getList().on('addtrainingclick', this.consumeListAddTrainingClick, this);
-        this.getList().on('edittrainingclick', this.consumeListEditTrainingClick, this);
-        this.getList().on('deletetrainingclick', this.consumeListDeleteTrainingClick, this);
-        this.getList().reconfigure(this.getStore('Trainings'));
+        this.getMainView().on('addtrainingclick', this.consumeListAddTrainingClick, this);
+        this.getMainView().on('edittrainingclick', this.consumeListEditTrainingClick, this);
+        this.getMainView().on('deletetrainingclick', this.consumeListDeleteTrainingClick, this);
+        this.getMainView().reconfigure(this.getStore('Trainings'));
     },
 
     destroy: function() {
-        this.getList().un('deletetrainingclick', this.consumeListDeleteTrainingClick, this);
-        this.getList().un('edittrainingclick', this.consumeListEditTrainingClick, this);
-        this.getList().un('addtrainingclick', this.consumeListAddTrainingClick, this);
+        this.getMainView().un('deletetrainingclick', this.consumeListDeleteTrainingClick, this);
+        this.getMainView().un('edittrainingclick', this.consumeListEditTrainingClick, this);
+        this.getMainView().un('addtrainingclick', this.consumeListAddTrainingClick, this);
         this.callParent();
     },
 
     execute: function(params) {
         this.getStore('Trainings').load();
-        return this.getList();
+        return this.getMainView();
     },
 
     consumeListAddTrainingClick: function() {

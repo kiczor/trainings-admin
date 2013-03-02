@@ -25,7 +25,7 @@ Ext.define('TA.controller.Sessions', {
 
     refs: [
         {
-            ref: 'complex',
+            ref: 'mainView',
             selector: '',
             xtype: 'sessioncomplex',
             autoCreate: true
@@ -62,40 +62,40 @@ Ext.define('TA.controller.Sessions', {
         this.getStore('SessionsTree').getRootNode().appendChild(this.getStore('TrainingsTree').getRootNode());
         this.getStore('SessionsTree').getRootNode().appendChild(this.getStore('CoachesTree').getRootNode());
 
-        this.getComplex({
+        this.getMainView({
             roomsStore: roomsStore,
             sessionsTreeStore: this.getStore('SessionsTree')
         })
-        this.getComplex().on('addsessionclick', this.consumeListAddSessionClick, this);
-        this.getComplex().on('editsessionclick', this.consumeListEditSessionClick, this);
-        this.getComplex().on('sessionedited', this.consumeListSessionEdited, this);
-        this.getComplex().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
+        this.getMainView().on('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getMainView().on('editsessionclick', this.consumeListEditSessionClick, this);
+        this.getMainView().on('sessionedited', this.consumeListSessionEdited, this);
+        this.getMainView().on('deletesessionclick', this.consumeListDeleteSessionClick, this);
 
-        this.getComplex().on('coachclick', this.consumeComplexCoachClick, this);
-        this.getComplex().on('trainingclick', this.consumeComplexTrainingClick, this);
-        this.getComplex().on('coachesclick', this.consumeComplexCoachesClick, this);
-        this.getComplex().on('trainingsclick', this.consumeComplexTrainingsClick, this);
+        this.getMainView().on('coachclick', this.consumeComplexCoachClick, this);
+        this.getMainView().on('trainingclick', this.consumeComplexTrainingClick, this);
+        this.getMainView().on('coachesclick', this.consumeComplexCoachesClick, this);
+        this.getMainView().on('trainingsclick', this.consumeComplexTrainingsClick, this);
 
-        this.getComplex().reconfigure(this.getStore('Sessions'));
+        this.getMainView().reconfigure(this.getStore('Sessions'));
     },
 
     destroy: function() {
-        this.getComplex().un('coachclick', this.consumeComplexCoachClick, this);
-        this.getComplex().un('trainingclick', this.consumeComplexTrainingClick, this);
-        this.getComplex().un('coachesclick', this.consumeComplexCoachesClick, this);
-        this.getComplex().un('trainingsclick', this.consumeComplexTrainingsClick, this);
+        this.getMainView().un('coachclick', this.consumeComplexCoachClick, this);
+        this.getMainView().un('trainingclick', this.consumeComplexTrainingClick, this);
+        this.getMainView().un('coachesclick', this.consumeComplexCoachesClick, this);
+        this.getMainView().un('trainingsclick', this.consumeComplexTrainingsClick, this);
 
-        this.getComplex().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
-        this.getComplex().un('editsessionclick', this.consumeListEditSessionClick, this);
-        this.getComplex().un('sessionedited', this.consumeListSessionEdited, this);
-        this.getComplex().un('addsessionclick', this.consumeListAddSessionClick, this);
+        this.getMainView().un('deletesessionclick', this.consumeListDeleteSessionClick, this);
+        this.getMainView().un('editsessionclick', this.consumeListEditSessionClick, this);
+        this.getMainView().un('sessionedited', this.consumeListSessionEdited, this);
+        this.getMainView().un('addsessionclick', this.consumeListAddSessionClick, this);
         this.callParent();
     },
 
     execute: function(params) {
         this.getStore('Sessions').clearFilter(true);
         this.getStore('Sessions').load();
-        return this.getComplex();
+        return this.getMainView();
     },
 
     consumeListAddSessionClick: function() {
